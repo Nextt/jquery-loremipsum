@@ -75,8 +75,7 @@
 	};
 
     
-
-	$.words = function(count, common){
+	$.loremWords = function(count, common){
 	    /*"""
 	    Returns a string of `count` lorem ipsum words separated by a single space.
 	
@@ -98,29 +97,29 @@
 	        word_list = word_list.slice(0,count);
 	    } return word_list.join(' ');
 	};
-    $.fn.words = function(){
+    $.fn.loremWords = function(){
         var args = arguments;
         this.each(function(){
-            this.text( $.words.apply($,args) );
+            this.text( $.loremWords.apply($,args) );
         });
     };
 
-	$.titled = function(count, common){
+	$.loremTitled = function(count, common){
 		//a convience function to upper case the resulting words
 		var title = [],
-		    words = $.words(count, common);
+		    words = $.loremWords(count, common);
 		$.each(words.split(' '), function(pos, word){
 			title.push(word.charAt(0).toUpperCase()+word.slice(1));
 		}); return title.join(' ');
 	};
-    $.fn.titled = function(){
+    $.fn.loremTitled = function(){
         var args = arguments;
         this.each(function(){
-            this.text( $.titled.apply($, args) );
+            this.text( $.loremTitled.apply($, args) );
         });
     };
     
-	 $.sentence = function(common){
+	 $.loremSentence = function(common){
 	    /*"""
 	    Returns a randomly generated sentence of lorem ipsum text.
 	
@@ -132,7 +131,7 @@
         common = common?true:false;
 	    var sections = [],
 	        range = randomNumber(8,15);
-        sections = $.words(range, common).split(' ');
+        sections = $.loremWords(range, common).split(' ');
 	    for(var i=0;i<sections.length-1;i++){
 	    	if(Math.random() < 0.15){
                 sections[i] += ',';
@@ -142,14 +141,14 @@
 	    //# Convert to sentence case and add end punctuation.
 	    return (s.charAt(0).toUpperCase() + s.slice(1) + '.');
 	};
-    $.fn.sentence = function(){
+    $.fn.loremSentence = function(){
         var args = arguments;
         this.each(function(){
-            this.text( $.sentence.apply($,args) );
+            this.text( $.loremSentence.apply($,args) );
         });
     };
 
-	$.paragraph = function(common){
+	$.loremParagraph = function(common){
 	    /*"""
 	    Returns a randomly generated paragraph of lorem ipsum text.
 	
@@ -163,19 +162,19 @@
             paragraph.push(COMMON_P);
         }else{
     	    for(i=0;i<range;i++){
-    	    	paragraph.push($.sentence());
+    	    	paragraph.push($.loremSentence());
     	    } 
         }
         return paragraph.join(' ');
 	};
-    $.fn.paragraph = function(){
+    $.fn.loremParagraph = function(){
         var args = arguments;
         this.each(function(){
-            this.$ = $.paragraph.apply(_,args);
+            this.$ = $.loremParagraph.apply(_,args);
         });
     };
 
-	$.paragraphs = function(count, common){
+	$.loremParagraphs = function(count, common){
 	    /*"""
 	    Returns a list of paragraphs as returned by paragraph().
 	
@@ -189,15 +188,56 @@
 	        if (common && i === 0) {
 				paras = paras.concat(COMMON_P);
 			} else {
-				paras = paras.concat($.paragraph());
+				paras = paras.concat($.loremParagraph());
 			}
 	    } return paras;
 	};
-    $.fn.paragraphs = function(){
+    $.fn.loremParagraphs = function(){
         var args = arguments;
         this.each(function(){
-            this.$ = $.paragraphs.apply(_,args);
+            this.$ = $.loremParagraphs.apply(_,args);
         });
     };
+	
+	/**
+	 * @Deprecated - Kept for compatibility issues
+	 */
+	$.words = $.loremWords;
+	/**
+	 * @Deprecated - Kept for compatibility issues
+	 */
+	$.fn.words = $.fn.Words;
+	/**
+	 * @Deprecated - Kept for compatibility issues
+	 */
+	$.titled = $.loremTitled;
+	/**
+	 * @Deprecated - Kept for compatibility issues
+	 */
+	$.fn.titled = $.fn.loremTitled;
+	/**
+	 * @Deprecated - Kept for compatibility issues
+	 */
+	$.sentence = $.loremSentence;
+	/**
+	 * @Deprecated - Kept for compatibility issues
+	 */
+	$.fn.sentence = $.fn.loremSentence;
+	/**
+	 * @Deprecated - Kept for compatibility issues
+	 */
+	$.paragraph = $.loremParagraph;
+	/**
+	 * @Deprecated - Kept for compatibility issues
+	 */
+	$.fn.paragraph = $.fn.loremParagraph;
+	/**
+	 * @Deprecated - Kept for compatibility issues
+	 */
+	$.paragraphs = $.fn.loremParagraphs;
+	/**
+	 * @Deprecated - Kept for compatibility issues
+	 */
+	$.fn.paragraphs = $.fn.loremParagraphs;
 	
 })(jQuery);
