@@ -14,6 +14,10 @@
  *	Utility functions for generating "lorem ipsum" Latin text.
  *	"""
  */
+
+/* JSLint validation global vars */
+/*globals jQuery, _ */
+
 (function($){
     
 	var COMMON_P = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
@@ -52,6 +56,24 @@
         'adipisicing', 'elit', 'sed', 'do', 'eiusmod', 'tempor', 'incididunt',
         'ut', 'labore', 'et', 'dolore', 'magna', 'aliqua'];
 
+	var randomNumber = function(startRange, endRange){
+		var range = endRange - startRange,
+        randomNumber = endRange - Math.ceil(Math.random()*range);
+		return randomNumber;
+	};
+	
+	var randomSample = function(array, count){
+		var i,randomArray = [];
+		for(i=0;i<count;i++){
+			randomArray.push(array[randomNumber(0, array.length)]);
+		} 
+        return randomArray;
+	};
+	
+	var randomLetter = function(letters){
+		return letters.charAt(randomNumber(0, letters.length-1));
+	};
+
     
 
 	$.words = function(count, common){
@@ -63,11 +85,12 @@
 	    """*/
 		common = common?true:false;
 	    var word_list;
-	    if (common)
-	        word_list = COMMON_WORDS;
-	    else
-	        word_list = [];
-	        
+	    if (common) {
+			word_list = COMMON_WORDS;
+		} else {
+			word_list = [];
+		}
+		
 	    var c = word_list.length;
 	    if (count > c){
 	    	word_list = word_list.concat( randomSample(WORDS, count-c) );
@@ -163,10 +186,11 @@
         common = common?true:false;
 	    var paras = [];
 	    for ( var i=0; i<count;i++){
-	        if (common && i == 0)
-	            paras = paras.concat(COMMON_P);
-	        else
-	            paras = paras.concat($.paragraph());
+	        if (common && i === 0) {
+				paras = paras.concat(COMMON_P);
+			} else {
+				paras = paras.concat($.paragraph());
+			}
 	    } return paras;
 	};
     $.fn.paragraphs = function(){
@@ -176,21 +200,4 @@
         });
     };
 	
-	var randomSample = function(array, count){
-		var i,randomArray = [];
-		for(i=0;i<count;i++){
-			randomArray.push(array[randomNumber(0, array.length)]);
-		} 
-        return randomArray;
-	};
-	
-	var randomNumber = function(startRange, endRange){
-		var range = endRange - startRange,
-        randomNumber = endRange - Math.ceil(Math.random()*range);
-		return randomNumber;
-	};
-	
-	var randomLetter = function(letters){
-		return letters.charAt(randomNumber(0, letters.length-1));
-	};
 })(jQuery);
